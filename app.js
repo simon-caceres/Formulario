@@ -14,8 +14,18 @@ var app = express();
 var mongoose = require('mongoose');
 //Set up default mongoose connection
 var mongoDB = (process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/test');
+// const uri = 'mongodb://localhost:27017/myapp';
+// const options = {useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true};
+// // Or using promises
+// mongoose.connect(uri, options).then(
+//   /** ready to use. The `mongoose.connect()` promise resolves to mongoose instance. */
+//   () => { console.log('Conectado a DB') },
+//   /** handle initial connection error */
+//   err => { console.log(err) }
+// );
+
 console.log('Connecting to database...');
-mongoose.connect(mongoDB, { useNewUrlParser: true });
+mongoose.connect(mongoDB, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true });
 // Get Mongoose to use the global promise library
 mongoose.Promise = global.Promise;
 //Get the default connection
@@ -27,7 +37,9 @@ app.use(cors({
   origin: 'http://localhost:3000',
   credentials: true 
   }));
-  
+ 
+  // app.use('/api', require('./routes/users'));  
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
